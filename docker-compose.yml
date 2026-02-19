@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs_graphql_app
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: hassan
+      DB_DATABASE: gq-tes
+      JWT_SECRET: your_super_secret_jwt_key_change_this_in_production
+      JWT_EXPIRATION: 1d
+      GRAPHQL_PLAYGROUND: 'true'
+      GRAPHQL_DEBUG: 'true'
+      GRAPHQL_INTROSPECTION: 'true'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - nestjs_network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: nestjs_graphql_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: nestjs_graphql_auth
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nestjs_network
+
+volumes:
+  postgres_data:
+
+networks:
+  nestjs_network:
+    driver: bridge

@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment variables
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+temp_auto_push.bat
+Thumbs.db
+
+# Tests
+coverage/
+.nyc_output/
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# GraphQL schema (auto-generated)
+src/schema.gql
+
+# Database
+*.sqlite
+*.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+.gitignore
+temp_interactive_push.bat
